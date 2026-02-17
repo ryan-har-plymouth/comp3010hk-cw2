@@ -46,3 +46,167 @@ After ingestion, validation was performed to confirm that the index `botsv3` was
 ### Justification
 
 The choice of a single index for BOTSv3 aligns with the dataset’s design and keeps the lab environment simple while still reflecting how a SOC might dedicate an index to a specific data source or exercise.
+
+## Guided Questions
+
+Supporting evidence (screenshots of queries and results) is included in the final submission to demonstrate the analysis performed in Splunk. 
+
+### Question 1
+
+List out the IAM users that accessed an AWS service (successfully or unsuccessfully) in Frothly's AWS environment?
+
+#### SPL
+
+```spl
+index="botsv3" sourcetype="aws:cloudtrail" userIdentity.type=IAMUser | 
+stats values(userIdentity.userName) as userName_list | 
+eval userNames = mvjoin(userName_list, ",") | 
+fields userNames
+```
+
+#### Answer
+bstoll,btun,splunk_access,web_admin
+
+#### Evidence
+![Q1 evidence](evidence/E1_iam_users.png)
+
+#### SOC relevance
+Enumerating IAM users from CloudTrail establishes a baseline of who can act in the environment and supports access reviews and detection of unauthorised accounts.
+
+---
+
+### Question 2
+
+What field would you use to alert that AWS API activity has occurred without MFA (multi-factor authentication)?
+
+#### Answer
+userIdentity.sessionContext.attributes.mfaAuthenticated
+
+#### Evidence
+![Q2 evidence](evidence/E2_mfa_attribute.png)
+
+#### SOC relevance
+Alerting on this field supports detection of high-risk actions performed without MFA and is aligned with AWS best practices and compliance requirements.
+
+---
+
+### Question 3
+
+What is the processor number used on the web servers?
+
+#### SPL
+
+```spl
+index=botsv3 sourcetype=hardware | table cpu_type | dedup cpu_type
+```
+
+#### Answer
+E5-2676
+
+#### Evidence
+![Q3 evidence](evidence/E3_processor_number.png)
+
+#### SOC relevance
+Hardware inventory supports asset management and baselining; anomalies in CPU type or utilisation can indicate unauthorised or compromised systems.
+
+---
+
+### Question 4
+
+Bud accidentally makes an S3 bucket publicly accessible. What is the event ID of the API call that enabled public access?
+
+#### SPL
+
+```spl
+index=botsv3 sourcetype=aws:cloudtrail eventName=PutBucketAcl | search *AllUsers*
+```
+
+#### Answer
+ab45689d-69cd-41e7-8705-5350402cf7ac
+
+#### Evidence
+![Q4 evidence](evidence/E4_enabled_public_access.png)
+
+#### SOC relevance
+Identifying the exact event that changed ACLs supports incident timelines and accountability and can feed into automated alerting on dangerous S3 API calls.
+
+---
+
+### Question 5
+
+What is Bud's username?
+
+#### Answer
+bstoll
+
+#### Evidence
+![Q5 evidence](evidence/E5_buds_username.png)
+
+#### SOC relevance
+Associating the misconfiguration with a specific identity is essential for accountability, user awareness training, and access review.
+
+---
+
+### Question 6
+
+What is the name of the S3 bucket that was made publicly accessible?
+
+#### Answer
+frothlywebcode
+
+#### Evidence
+![Q6 evidence](evidence/E6_s3_bucket.png)
+
+#### SOC relevance
+The bucket name is required to scope remediation, for example, removing public ACLs, checking object exposure, and correlating with access logs.
+
+---
+
+### Question 7
+
+What is the name of the text file that was successfully uploaded into the S3 bucket while it was publicly accessible?
+
+#### SPL
+
+```spl
+index=botsv3 sourcetype=aws:s3:accesslogs http_method=PUT *frothlywebcode* |
+search *.txt |
+table _time bucket_name key status
+```
+
+#### Answer
+OPEN_BUCKET_PLEASE_FIX.txt
+
+#### Evidence
+![Q7 evidence](evidence/E7_uploaded_text_file.png)
+
+#### SOC relevance
+Identifying objects uploaded during the exposure window is critical for assessing data breach scope.
+
+---
+
+### Question 8
+
+What is the FQDN of the endpoint that is running a different Windows operating system edition than the others?
+
+#### SPL 1
+
+```spl
+index=botsv3 sourcetype=winhostmon | stats count by host, OS | dedup host | sort host
+```
+
+#### SPL 2
+
+```spl
+index=botsv3 sourcetype="wineventlog" host="BSTOLL-L"
+```
+
+#### Answer
+BSTOLL-L.froth.ly
+
+#### Evidence
+![Q8 evidence](evidence/E8_different_windows_operating_system.png)
+![Q8 evidence](evidence/E9_FQDN.png)
+
+#### SOC relevance
+Identifying outliers in OS inventory supports change management, licence compliance, and detection of unsanctioned or compromised systems.
