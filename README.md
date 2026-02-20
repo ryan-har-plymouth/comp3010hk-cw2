@@ -26,9 +26,26 @@ The report is organised as follows:
 
 ## SOC Roles and Incident Handling Reflection
 
-Security Operations Centres (SOCs) are responsible for continuous monitoring, detection, and response to security events. SOC tiers typically range from Tier 1 (initial triage and alert handling) through Tier 2 (deeper investigation) to Tier 3 (advanced threat analysis and escalation). In the BOTSv3 scenario, the analyst performs work that spans these tiers: triaging AWS and endpoint data (Tier 1), correlating IAM, S3, and host data to understand an incident (Tier 2), and drawing conclusions about misconfigurations and exposure (Tier 3).
+This section relates SOC structure and incident-handling phases to the BOTSv3 exercise.
 
-Incident handling is often described in phases: prevention, detection, response, and recovery. In BOTSv3, **prevention** is reflected in the questions around MFA monitoring and S3 bucket configuration—controls that, if applied, would reduce the likelihood of credential misuse and public data exposure. **Detection** is exercised through CloudTrail, S3 access logs, and endpoint data (e.g. hardware and OS inventory), which mirror the telemetry a SOC would use to spot anomalous API calls, bucket access, or host outliers. **Response** is demonstrated by identifying the affected principals (e.g. IAM users), resources (e.g. the exposed bucket), and endpoints (e.g. the host with a different OS edition), which would inform containment and remediation. **Recovery** is implied by the need to revoke exposed credentials, lock down bucket ACLs, and harden endpoints—all of which would be documented in a real post-incident report. This exercise therefore reinforces how SOC structures and incident phases map onto a structured log-based investigation.
+### SOC tiers
+
+Security Operations Centres (SOCs) perform continuous monitoring, detection, and response to security events. SOC tiers typically run from Tier 1 through Tier 2 to Tier 3. Tier 1 focuses on initial triage and alert handling. Tier 2 takes on deeper investigation of events and context. Tier 3 handles advanced threat analysis and escalation.
+
+In the BOTSv3 scenario, the analyst’s work spans all three tiers:
+
+- Tier 1: Triaging AWS and endpoint data.
+- Tier 2: Correlating IAM, S3, and host data to understand the incident.
+- Tier 3: Drawing conclusions about misconfigurations and exposure.
+
+### Incident phases
+
+Incident handling can be described as prevention, detection, response, and recovery [7]. In BOTSv3:
+
+- **Prevention** — Questions on MFA monitoring and S3 bucket configuration reflect controls that would reduce credential misuse and public data exposure.
+- **Detection** — CloudTrail, S3 access logs, and endpoint data (e.g. hardware and OS inventory) mirror the telemetry a SOC uses to spot anomalous API calls, bucket access, or host outliers.
+- **Response** — Identifying affected principals (IAM users), resources (the exposed bucket), and endpoints (e.g. the host with a different OS edition) would inform containment and remediation.
+- **Recovery** — Revoking exposed credentials, locking down bucket ACLs, and hardening endpoints would be documented in a real post-incident report.
 
 ## Installation and Data Preparation
 
@@ -240,3 +257,5 @@ A recorded presentation summarising these findings, demonstrating selected Splun
 [5] NIST, “Security and Privacy Controls for Information Systems and Organizations,” SP 800-53 Rev. 5 (CM-8 System Component Inventory). [Online]. Available: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
 
 [6] NIST, “Data Confidentiality: Detect, Respond to, and Recover from Data Breaches,” SP 1800-29. [Online]. Available: https://csrc.nist.gov/pubs/sp/1800/29/final
+
+[7] NIST, “Incident Response Recommendations and Considerations for Cybersecurity Risk Management: A CSF 2.0 Community Profile,” SP 800-61 Rev. 3. [Online]. Available: https://csrc.nist.gov/pubs/sp/800/61/r3/final
