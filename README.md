@@ -11,7 +11,7 @@ The objectives of this investigation are to:
 
 ### Scope and assumptions
 
-The scope is limited to the BOTSv3 dataset ingested into a single Splunk index (`botsv3`) on an Ubuntu VM. The analysis uses the AWS and endpoint question set provided in the coursework brief (Questions 1–8). It is assumed that the dataset has been correctly ingested and that source types such as `aws:cloudtrail`, `aws:s3:accesslogs`, `hardware`, and `winhostmon` are available and populated. The report does not cover other BOTSv3 question sets (e.g. 300-level) unless referenced for context.
+The scope is limited to the BOTSv3 dataset ingested into a single Splunk index (`botsv3`) on an Ubuntu VM. The analysis uses the moodle BOTSv3 200-Level quiz set. It is assumed that the dataset has been correctly ingested and that source types such as `aws:cloudtrail`, `aws:s3:accesslogs`, `hardware`, and `winhostmon` are available and populated.
 
 ### Report structure
 
@@ -20,8 +20,9 @@ The report is organised as follows:
 - SOC roles and incident handling reflection
 - Installation and data preparation
 - Guided questions
-- Conclusion, references and presentation
-
+- Conclusion
+- Presentation
+- References
 
 ## SOC Roles and Incident Handling Reflection
 
@@ -210,3 +211,18 @@ BSTOLL-L.froth.ly
 
 #### SOC relevance
 Identifying outliers in OS inventory supports change management, licence compliance, and detection of unsanctioned or compromised systems.
+
+## Conclusion
+
+### Summary
+
+This investigation used the moodle BOTSv3 dataset to answer eight 200-level questions covering IAM activity, MFA alerting, hardware inventory, S3 bucket misconfiguration, and endpoint OS diversity. The exercise illustrated how CloudTrail, S3 access logs, and endpoint telemetry support detection and response in a SOC context. Key findings include the importance of monitoring S3 ACL changes, enforcing MFA for sensitive API actions, and maintaining accurate asset and OS inventories.
+
+### Lessons and improvements
+
+For detection, alerting on PutBucketAcl and on the MFA-related field in CloudTrail would help catch misconfigurations and unauthenticated high-privilege actions. For response, correlating IAM users, bucket names, and access logs allows rapid scoping of exposure. Maintaining indexed S3 access logs alongside CloudTrail improves visibility into object-level abuse. Documenting the investigation in a README, keeping the work under version control, and committing regularly align with good practice for incident reporting and for showing ongoing progress.
+
+## Presentation
+
+A recorded presentation summarising these findings, demonstrating selected Splunk queries, and reflecting on SOC operations is available here:  
+[https://youtu.be/QbxJdFiSHkc](https://youtu.be/QbxJdFiSHkc)
