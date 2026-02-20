@@ -72,7 +72,7 @@ bstoll,btun,splunk_access,web_admin
 ![Q1 evidence](evidence/E1_iam_users.png)
 
 #### SOC relevance
-Enumerating IAM users from CloudTrail establishes a baseline of who can act in the environment and supports access reviews and detection of unauthorised accounts.
+Enumerating IAM users from CloudTrail [1] establishes a baseline of who can act in the environment and supports access reviews and detection of unauthorised accounts.
 
 ---
 
@@ -87,7 +87,7 @@ userIdentity.sessionContext.attributes.mfaAuthenticated
 ![Q2 evidence](evidence/E2_mfa_attribute.png)
 
 #### SOC relevance
-Alerting on this field supports detection of high-risk actions performed without MFA and is aligned with AWS best practices and compliance requirements.
+Alerting on this field supports detection of high-risk actions performed without MFA [1].
 
 ---
 
@@ -108,7 +108,7 @@ E5-2676
 ![Q3 evidence](evidence/E3_processor_number.png)
 
 #### SOC relevance
-Hardware inventory supports asset management and baselining; anomalies in CPU type or utilisation can indicate unauthorised or compromised systems.
+Hardware inventory supports asset management and baselining; anomalies in CPU type or utilisation can indicate unauthorised or compromised systems [5].
 
 ---
 
@@ -129,7 +129,7 @@ ab45689d-69cd-41e7-8705-5350402cf7ac
 ![Q4 evidence](evidence/E4_enabled_public_access.png)
 
 #### SOC relevance
-Identifying the exact event that changed ACLs supports incident timelines and accountability and can feed into automated alerting on dangerous S3 API calls.
+Identifying the exact event that changed ACLs supports incident timelines and accountability and can feed into automated alerting on dangerous S3 API calls [2], [3].
 
 ---
 
@@ -159,7 +159,7 @@ frothlywebcode
 ![Q6 evidence](evidence/E6_s3_bucket.png)
 
 #### SOC relevance
-The bucket name is required to scope remediation, for example, removing public ACLs, checking object exposure, and correlating with access logs.
+The bucket name is required to scope remediation, for example, removing public ACLs, checking object exposure, and correlating with access logs [2].
 
 ---
 
@@ -182,7 +182,7 @@ OPEN_BUCKET_PLEASE_FIX.txt
 ![Q7 evidence](evidence/E7_uploaded_text_file.png)
 
 #### SOC relevance
-Identifying objects uploaded during the exposure window is critical for assessing data breach scope.
+Identifying objects uploaded during the exposure window is critical for assessing data breach scope [4], [6].
 
 ---
 
@@ -226,3 +226,17 @@ For detection, alerting on PutBucketAcl and on the MFA-related field in CloudTra
 
 A recorded presentation summarising these findings, demonstrating selected Splunk queries, and reflecting on SOC operations is available here:  
 [https://youtu.be/QbxJdFiSHkc](https://youtu.be/QbxJdFiSHkc)
+
+## References
+
+[1] Amazon Web Services, “CloudTrail log file examples,” AWS Documentation. [Online]. Available: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-examples.html
+
+[2] Amazon Web Services, “Configuring ACLs,” Amazon S3 User Guide. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html
+
+[3] Amazon Web Services, “PutBucketAcl,” AWS API Reference. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAcl.html
+
+[4] Amazon Web Services, “PutObject,” AWS API Reference. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+
+[5] NIST, “Security and Privacy Controls for Information Systems and Organizations,” SP 800-53 Rev. 5 (CM-8 System Component Inventory). [Online]. Available: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+
+[6] NIST, “Data Confidentiality: Detect, Respond to, and Recover from Data Breaches,” SP 1800-29. [Online]. Available: https://csrc.nist.gov/pubs/sp/1800/29/final
