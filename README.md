@@ -40,7 +40,7 @@ In the BOTSv3 scenario, the analyst’s work spans all three tiers:
 
 ### Incident phases
 
-Incident handling can be described as prevention, detection, response, and recovery [7]. In BOTSv3:
+Incident handling can be described as prevention, detection, response, and recovery [1]. In BOTSv3:
 
 - **Prevention** — Questions on MFA monitoring and S3 bucket configuration reflect controls that would reduce credential misuse and public data exposure.
 - **Detection** — CloudTrail, S3 access logs, and endpoint data (e.g. hardware and OS inventory) mirror the telemetry a SOC uses to spot anomalous API calls, bucket access, or host outliers.
@@ -89,7 +89,7 @@ bstoll,btun,splunk_access,web_admin
 ![Q1 evidence](evidence/E1_iam_users.png)
 
 #### SOC relevance
-Enumerating IAM users from CloudTrail [1] establishes a baseline of who can act in the environment and supports access reviews and detection of unauthorised accounts.
+Enumerating IAM users from CloudTrail [2] establishes a baseline of who can act in the environment and supports access reviews and detection of unauthorised accounts.
 
 ---
 
@@ -104,7 +104,7 @@ userIdentity.sessionContext.attributes.mfaAuthenticated
 ![Q2 evidence](evidence/E2_mfa_attribute.png)
 
 #### SOC relevance
-Alerting on this field supports detection of high-risk actions performed without MFA [1].
+Alerting on this field supports detection of high-risk actions performed without MFA [2].
 
 ---
 
@@ -125,7 +125,7 @@ E5-2676
 ![Q3 evidence](evidence/E3_processor_number.png)
 
 #### SOC relevance
-Hardware inventory supports asset management and baselining; anomalies in CPU type or utilisation can indicate unauthorised or compromised systems [5].
+Hardware inventory supports asset management and baselining; anomalies in CPU type or utilisation can indicate unauthorised or compromised systems [3].
 
 ---
 
@@ -146,7 +146,7 @@ ab45689d-69cd-41e7-8705-5350402cf7ac
 ![Q4 evidence](evidence/E4_enabled_public_access.png)
 
 #### SOC relevance
-Identifying the exact event that changed ACLs supports incident timelines and accountability and can feed into automated alerting on dangerous S3 API calls [2], [3].
+Identifying the exact event that changed ACLs supports incident timelines and accountability and can feed into automated alerting on dangerous S3 API calls [4], [5].
 
 ---
 
@@ -176,7 +176,7 @@ frothlywebcode
 ![Q6 evidence](evidence/E6_s3_bucket.png)
 
 #### SOC relevance
-The bucket name is required to scope remediation, for example, removing public ACLs, checking object exposure, and correlating with access logs [2].
+The bucket name is required to scope remediation, for example, removing public ACLs, checking object exposure, and correlating with access logs [4].
 
 ---
 
@@ -199,7 +199,7 @@ OPEN_BUCKET_PLEASE_FIX.txt
 ![Q7 evidence](evidence/E7_uploaded_text_file.png)
 
 #### SOC relevance
-Identifying objects uploaded during the exposure window is critical for assessing data breach scope [4], [6].
+Identifying objects uploaded during the exposure window is critical for assessing data breach scope [6], [7].
 
 ---
 
@@ -246,16 +246,16 @@ A recorded presentation summarising these findings, demonstrating selected Splun
 
 ## References
 
-[1] Amazon Web Services, “CloudTrail log file examples,” AWS Documentation. [Online]. Available: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-examples.html
+[1] NIST, “Incident Response Recommendations and Considerations for Cybersecurity Risk Management: A CSF 2.0 Community Profile,” SP 800-61 Rev. 3. [Online]. Available: https://csrc.nist.gov/pubs/sp/800/61/r3/final
 
-[2] Amazon Web Services, “Configuring ACLs,” Amazon S3 User Guide. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html
+[2] Amazon Web Services, “CloudTrail log file examples,” AWS Documentation. [Online]. Available: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-examples.html
 
-[3] Amazon Web Services, “PutBucketAcl,” AWS API Reference. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAcl.html
+[3] NIST, “Security and Privacy Controls for Information Systems and Organizations,” SP 800-53 Rev. 5 (CM-8 System Component Inventory). [Online]. Available: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
 
-[4] Amazon Web Services, “PutObject,” AWS API Reference. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+[4] Amazon Web Services, “Configuring ACLs,” Amazon S3 User Guide. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html
 
-[5] NIST, “Security and Privacy Controls for Information Systems and Organizations,” SP 800-53 Rev. 5 (CM-8 System Component Inventory). [Online]. Available: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+[5] Amazon Web Services, “PutBucketAcl,” AWS API Reference. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAcl.html
 
-[6] NIST, “Data Confidentiality: Detect, Respond to, and Recover from Data Breaches,” SP 1800-29. [Online]. Available: https://csrc.nist.gov/pubs/sp/1800/29/final
+[6] Amazon Web Services, “PutObject,” AWS API Reference. [Online]. Available: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
 
-[7] NIST, “Incident Response Recommendations and Considerations for Cybersecurity Risk Management: A CSF 2.0 Community Profile,” SP 800-61 Rev. 3. [Online]. Available: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+[7] NIST, “Data Confidentiality: Detect, Respond to, and Recover from Data Breaches,” SP 1800-29. [Online]. Available: https://csrc.nist.gov/pubs/sp/1800/29/final
